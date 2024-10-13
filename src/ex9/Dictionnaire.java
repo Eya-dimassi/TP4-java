@@ -14,24 +14,28 @@ public class Dictionnaire {
 	
 	}
 	public void Ajouter_Mot(Mot_dict m) {
-		int i;
-		if(taille==0) {
-			m=Dict[0];
-		}else {
-			for( i=nb_mots-1;m.getMot().compareTo(Dict[i].getMot())<0;i--){
-				Dict[i+1]=Dict[i];
-			}
-			Dict[i+1]=m;
-			nb_mots++;
-			
-		}
+		if (nb_mots == taille) { 
+	        System.out.println("Dictionnaire plein. Impossible d'ajouter le mot.");
+	        return;
+	    }
+	    if (nb_mots == 0) { 
+	        Dict[0] = m;
+	    } else {
+	        int i;
+	        for (i = nb_mots - 1; i >= 0 && m.getMot().compareTo(Dict[i].getMot()) < 0; i--) {
+	            Dict[i + 1] = Dict[i];
+	        }
+	        Dict[i + 1] = m;
+	    }
+	    nb_mots++;
+
 		
 	}
 	public void Trier() { 
         Mot_dict tmp ;  
-        for(int i=0; i < taille; i++) 
+        for(int i=0; i < nb_mots-1; i++) 
         {
-                for(int j=1; j < (taille-i); j++)
+                for(int j=1; j < (nb_mots-i); j++)
                 {  
                         if(Dict[j-1].getMot().compareTo(Dict[j].getMot())>0)
                         {
@@ -89,7 +93,11 @@ public class Dictionnaire {
 
 	public void Lister_dicho() {
 		for(int j=0;j<nb_mots;j++) {
-			System.out.println(Dict[j].getMot()+" : "+Dict[j].getDef());
+			if(Dict[j]!=null) {
+				System.out.println(Dict[j].getMot()+" : "+Dict[j].getDef());
+				
+			}
+			
 		}
 		
 		
@@ -97,7 +105,7 @@ public class Dictionnaire {
 	int Nombre_sysnonyme(Mot_dict m) {
 		int x=0;
 		for(int j=0;j<nb_mots;j++) {
-			if (Dict[j].synonyme(m.getMot())) {
+			if (Dict[j]!= null && Dict[j].synonyme(m.getMot())) {
 				x++;
 				
 			}
